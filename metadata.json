@@ -1,0 +1,6 @@
+{
+  "name": "Sentinel DMS",
+  "description": "Zero-Trust Digital Document Management System with cryptographic integrity verification, chain-of-custody tracking, and role-based access control.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

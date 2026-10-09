@@ -1,12 +1,19 @@
 import React from 'react';
+import { motion, HTMLMotionProps } from 'framer-motion';
 
-export interface GlassPanelProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassPanelProps extends HTMLMotionProps<"div"> {
   children: React.ReactNode;
 }
 
-export const GlassPanel: React.FC<GlassPanelProps> = ({ children, className = '', ...props }) => {
+const defaultVariants = {
+  initial: { opacity: 0, y: 15 },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.3 } },
+};
+
+export const GlassPanel: React.FC<GlassPanelProps> = ({ children, className = '', variants, ...props }) => {
   return (
-    <div
+    <motion.div
+      variants={variants || defaultVariants}
       className={`relative overflow-hidden rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl ${className}`}
       {...props}
     >
@@ -15,6 +22,6 @@ export const GlassPanel: React.FC<GlassPanelProps> = ({ children, className = ''
       <div className="relative z-10 w-full h-full flex flex-col">
         {children}
       </div>
-    </div>
+    </motion.div>
   );
 };

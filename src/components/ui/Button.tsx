@@ -1,12 +1,14 @@
 import React from 'react';
 import { Loader2 } from 'lucide-react';
+import { HTMLMotionProps, motion } from 'framer-motion';
 
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends Omit<HTMLMotionProps<"button">, "size" | "children"> {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive';
   size?: 'sm' | 'md' | 'lg' | 'icon';
   isLoading?: boolean;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -24,8 +26,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
+    // Note: Transition is handled by framer-motion for transform scale,
+    // but color/opacity transitions are still CSS
     const baseStyles =
-      'inline-flex items-center justify-center font-medium rounded-md transition-all duration-150 select-none outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-1 focus-visible:ring-offset-[var(--bg-app)] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer whitespace-nowrap shrink-0';
+      'inline-flex items-center justify-center font-medium rounded-md transition-colors duration-150 select-none outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-1 focus-visible:ring-offset-[var(--bg-app)] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer whitespace-nowrap shrink-0';
 
     const sizeStyles = {
       sm: 'h-7 px-2.5 text-xs gap-1.5',
@@ -36,22 +40,24 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     const variantStyles = {
       primary:
-        'bg-[var(--accent-blue)] text-white shadow-[0_0_15px_rgba(14,165,233,0.4)] border border-transparent hover:opacity-90 active:scale-[0.99]',
+        'bg-[var(--accent-blue)] text-white shadow-[0_0_15px_rgba(14,165,233,0.4)] border border-transparent hover:opacity-90',
       secondary:
-        'bg-white/5 border border-white/10 hover:bg-white/10 backdrop-blur-md text-[var(--text-primary)] active:bg-white/20',
+        'bg-white/5 border border-white/10 hover:bg-white/10 backdrop-blur-md text-[var(--text-primary)] shadow-[inset_0_0_10px_rgba(255,255,255,0.02)]',
       outline:
         'bg-transparent text-[var(--accent-purple)] border border-[var(--accent-purple)] hover:shadow-[0_0_15px_rgba(139,92,246,0.3)] hover:bg-[var(--accent-purple)] hover:bg-opacity-10',
       ghost:
         'bg-transparent text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-hover)]',
       destructive:
-        'bg-transparent text-rose-500 border border-rose-500/30 hover:bg-rose-500/10 hover:border-rose-500/50 active:bg-rose-500/20',
+        'bg-transparent text-rose-500 border border-rose-500/30 hover:bg-rose-500/10 hover:border-rose-500/50',
     }[variant];
 
     return (
-      <button
+      <motion.button
         ref={ref}
         disabled={disabled || isLoading}
         className={`${baseStyles} ${sizeStyles} ${variantStyles} ${className}`}
+        whileHover={disabled || isLoading ? {} : { scale: 1.02 }}
+        whileTap={disabled || isLoading ? {} : { scale: 0.98 }}
         {...props}
       >
         {isLoading ? (
@@ -61,7 +67,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         )}
         {children && <span>{children}</span>}
         {!isLoading && rightIcon && <span className="shrink-0">{rightIcon}</span>}
-      </button>
+      </motion.button>
     );
   }
 );
