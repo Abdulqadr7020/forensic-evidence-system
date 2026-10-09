@@ -21,6 +21,10 @@
 2. Primary actions and focus states use the chosen vibrant accent colors.
 3. Forms in the Audit and Cases views share identical structure, spacing, and styling.
 
+**Plans:** 2 plans
+- [ ] 02-01-PLAN.md — Define Cyberpunk Tokens & Core Inputs (Input, Select, Textarea)
+- [ ] 02-02-PLAN.md — Standardize Modals and Additional Interactive Elements
+
 ## Phase 3: Micro-interactions & Motion
 **Goal:** Bring the UI to life with animations and fluid transitions.
 **Requirements:** 
