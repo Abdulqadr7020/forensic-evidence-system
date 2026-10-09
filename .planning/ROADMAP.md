@@ -44,3 +44,6 @@
 1. Tab navigation works intuitively, clearly highlighting all interactive elements.
 2. Contrast ratios across text and glassmorphic elements meet at least WCAG AA standards.
 3. Layout adapts cleanly to mobile and tablet viewports without breaking the aesthetic or usability.
+
+**Plans:** 1 plan
+- [ ] 01-PLAN.md — Focus Utilities & Interactive Card Accessibility
