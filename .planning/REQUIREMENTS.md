@@ -4,12 +4,12 @@
 
 ### Visual Design
 
-- [ ] **UI-01**: User experiences a consistent dark mode theme with glassmorphic elements across all views.
+- [x] **UI-01**: User experiences a consistent dark mode theme with glassmorphic elements across all views.
 - [x] **UI-02**: User sees vibrant accent colors applied consistently to primary actions and focus states.
 
 ### Interactions
 
-- [ ] **UI-03**: User experiences smooth micro-interactions (hover states, click animations, view transitions) powered by `motion`.
+- [x] **UI-03**: User experiences smooth micro-interactions (hover states, click animations, view transitions) powered by `motion`.
 
 ### Components & Consistency
 
@@ -17,7 +17,7 @@
 
 ### Quality
 
-- [ ] **UI-05**: User can fully access the application via keyboard navigation and screen readers, and the UI responds cleanly to mobile and tablet screen sizes.
+- [x] **UI-05**: User can fully access the application via keyboard navigation and screen readers, and the UI responds cleanly to mobile and tablet screen sizes.
 
 ## Future Requirements (Deferred)
 
