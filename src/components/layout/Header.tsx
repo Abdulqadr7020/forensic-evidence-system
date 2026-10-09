@@ -68,7 +68,7 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="flex items-center gap-3 min-w-0">
           <button
             onClick={onOpenMobileNav}
-            className="md:hidden p-1.5 rounded-md text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-hover)] border border-[var(--border)]"
+            className="md:hidden p-1.5 rounded-md text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-hover)] border border-[var(--border)] focus-glow"
             aria-label="Open mobile navigation menu"
           >
             <Menu className="w-4 h-4" />
@@ -98,7 +98,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Search Trigger Button */}
           <button
             onClick={() => setIsSearchOpen(true)}
-            className="flex items-center gap-2 h-8 px-2.5 sm:px-3 rounded-lg border border-black/[0.08] dark:border-white/[0.08] bg-black/[0.03] dark:bg-white/[0.04] hover:bg-black/[0.06] dark:hover:bg-white/[0.08] text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white text-xs transition-colors cursor-pointer select-none"
+            className="flex items-center gap-2 h-8 px-2.5 sm:px-3 rounded-lg border border-black/[0.08] dark:border-white/[0.08] bg-black/[0.03] dark:bg-white/[0.04] hover:bg-black/[0.06] dark:hover:bg-white/[0.08] text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white text-xs transition-colors cursor-pointer select-none focus-glow"
             aria-label="Search records"
           >
             <MagnifyingGlass className="h-4 w-4 shrink-0 text-neutral-400 dark:text-neutral-500" />
@@ -113,7 +113,7 @@ export const Header: React.FC<HeaderProps> = ({
             align="right"
             trigger={
               <button
-                className="relative p-2 rounded-md border border-[var(--border)] bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-hover)] transition-colors cursor-pointer"
+                className="relative p-2 rounded-md border border-[var(--border)] bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-hover)] transition-colors cursor-pointer focus-glow"
                 aria-label="View notifications"
               >
                 <Bell className="w-3.5 h-3.5" />

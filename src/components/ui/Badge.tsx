@@ -44,7 +44,7 @@ export const Badge: React.FC<BadgeProps> = ({
 
   return (
     <motion.div
-      className={`inline-flex items-center font-medium rounded-[6px] border select-none whitespace-nowrap shrink-0 transition-colors duration-150 ${sizeStyles} ${variantStyles} ${
+      className={`inline-flex items-center font-medium rounded-[6px] border select-none whitespace-nowrap shrink-0 transition-colors duration-150 focus-glow ${sizeStyles} ${variantStyles} ${
         isMonospace ? 'font-mono' : ''
       } ${className}`}
       whileHover={props.onClick ? { scale: 1.02 } : undefined}

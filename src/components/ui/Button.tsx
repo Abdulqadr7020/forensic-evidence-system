@@ -26,10 +26,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    // Note: Transition is handled by framer-motion for transform scale,
-    // but color/opacity transitions are still CSS
     const baseStyles =
-      'inline-flex items-center justify-center font-medium rounded-md transition-colors duration-150 select-none outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-1 focus-visible:ring-offset-[var(--bg-app)] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer whitespace-nowrap shrink-0';
+      'inline-flex items-center justify-center font-medium rounded-md transition-colors duration-150 select-none outline-none focus-glow disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer whitespace-nowrap shrink-0';
 
     const sizeStyles = {
       sm: 'h-7 px-2.5 text-xs gap-1.5',

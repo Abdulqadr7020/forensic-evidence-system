@@ -24,10 +24,10 @@ export const MetricCard: React.FC<MetricCardProps> = ({
 }) => {
   return (
     <GlassPanel
-      {...(onClick ? { onClick } : {})}
+      {...(onClick ? { onClick, tabIndex: 0, role: 'button' } : {})}
       className={`flex flex-col justify-between p-4 sm:p-5 transition-all duration-150 ${
         onClick
-          ? 'hover:border-[var(--border-strong)] hover:bg-[var(--surface-hover)] cursor-pointer'
+          ? 'hover:border-[var(--border-strong)] hover:bg-[var(--surface-hover)] cursor-pointer focus-glow'
           : ''
       }`}
     >

@@ -44,8 +44,9 @@
     --border-subtle: #1A1A1A;
     --border-strong: #404040;
     --text-primary: #FAFAFA;
-    --text-secondary: #A1A1AA;
-    --text-muted: #71717A;
+    /* Boosted for WCAG AA contrast over glass */
+    --text-secondary: #B0B0B8; 
+    --text-muted: #82828C;
     --text-disabled: #52525B;
     --primary-action: var(--accent-blue);
     --primary-action-text: #000000;
@@ -94,6 +95,12 @@
   ::selection {
     background-color: var(--text-primary);
     color: var(--bg-app);
+  }
+}
+
+@layer utilities {
+  .focus-glow {
+    @apply outline-none focus-visible:ring-0 focus-visible:shadow-[inset_0_0_0_1.5px_var(--focus-ring),inset_0_0_12px_rgba(139,92,246,0.3)];
   }
 }
 

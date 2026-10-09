@@ -17,7 +17,7 @@ export const EvidenceFolderCard: React.FC<EvidenceFolderCardProps> = ({
       type="button"
       onClick={() => onInspectProof(document)}
       title={`Click to view all details for ${document.name}`}
-      className="group flex flex-col items-center justify-between p-3.5 rounded-xl border border-[var(--border)] hover:border-[var(--border-strong)] bg-[var(--surface)] hover:bg-[var(--surface-hover)] transition-all duration-200 cursor-pointer select-none text-left w-full h-full shadow-xs hover:shadow-md focus:outline-none focus:ring-2 focus:ring-sky-500/40"
+      className="group flex flex-col items-center justify-between p-3.5 rounded-xl border border-[var(--border)] hover:border-[var(--border-strong)] bg-[var(--surface)] hover:bg-[var(--surface-hover)] transition-all duration-200 cursor-pointer select-none text-left w-full h-full shadow-xs hover:shadow-md focus-glow"
     >
       {/* ── Blank Small Logo (Minimalist Evidence Folder Graphic) ── */}
       <div className="relative flex items-center justify-center w-14 h-12 sm:w-16 sm:h-14 my-1 transition-transform duration-200 group-hover:scale-108 shrink-0">

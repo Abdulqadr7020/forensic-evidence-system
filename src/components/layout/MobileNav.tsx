@@ -51,7 +51,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({
             <Logo isCollapsed={false} />
             <button
               onClick={onClose}
-              className="p-2 rounded-md text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-hover)]"
+              className="p-2 rounded-md text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-hover)] focus-glow"
               aria-label="Close navigation"
             >
               <X className="w-5 h-5" />
@@ -70,7 +70,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({
                     onSelectTab(item.id);
                     onClose();
                   }}
-                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-xs font-medium transition-colors ${
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-xs font-medium transition-colors focus-glow ${
                     isActive
                       ? 'bg-[var(--surface-active)] text-[var(--text-primary)] border border-[var(--border)]'
                       : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-hover)]'
