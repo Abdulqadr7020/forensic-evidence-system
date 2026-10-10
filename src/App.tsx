@@ -10,7 +10,7 @@ import { DocumentsView } from './views/DocumentsView';
 import { TransfersView } from './views/TransfersView';
 import { IntegrityView } from './views/IntegrityView';
 import { AuditView } from './views/AuditView';
-import { Button } from './components/ui/Button';
+import { AuthView } from './views/AuthView';
 import { Shield } from 'lucide-react';
 import { SplashAnimation } from './components/ui/SplashAnimation';
 
@@ -29,7 +29,6 @@ const pageVariants = {
 };
 
 const AppContent: React.FC = () => {
-  const { user } = useAuth();
   const [currentTab, setCurrentTab] = useState<string>('dashboard');
 
   const tabLabels: Record<string, string> = {
@@ -78,6 +77,50 @@ const AppContent: React.FC = () => {
   );
 };
 
+const MainApp: React.FC = () => {
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen w-full flex items-center justify-center bg-[#07090e]">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center shadow-[0_0_20px_rgba(6,182,212,0.2)]">
+            <Shield className="w-5 h-5 text-cyan-400 animate-pulse" />
+          </div>
+          <span className="text-xs font-mono text-neutral-400">Verifying judicial clearance...</span>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <AnimatePresence mode="wait">
+      {!isAuthenticated ? (
+        <motion.div
+          key="auth-view"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          className="h-full w-full"
+        >
+          <AuthView />
+        </motion.div>
+      ) : (
+        <motion.div
+          key="app-shell"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          className="h-full w-full"
+        >
+          <AppContent />
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
 
 export default function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -86,9 +129,8 @@ export default function App() {
     <ThemeProvider>
       <AuthProvider>
         <ToastProvider>
-          {/* Always render AppContent so it is ready when splash finishes */}
           <div className="h-full w-full">
-            <AppContent />
+            <MainApp />
           </div>
 
           <AnimatePresence>

@@ -2,7 +2,12 @@ import React, { createContext, useContext, useEffect, useState, ReactNode } from
 import { Session, User as SupabaseUser } from '@supabase/supabase-js';
 import { supabase } from '../lib/supabase';
 import { User, UserRole } from '../types/auth';
-import { signInWithGoogle as authSignInWithGoogle, signOut as authSignOut } from '../services/auth';
+import {
+  signIn as authSignIn,
+  signUp as authSignUp,
+  signInWithGoogle as authSignInWithGoogle,
+  signOut as authSignOut,
+} from '../services/auth';
 
 const DEFAULT_USERS: Record<UserRole, User> = {
   police: {
@@ -57,12 +62,16 @@ export interface AuthContextType {
   supabaseUser: SupabaseUser | null;
   user: User;
   isAuthenticated: boolean;
+  isGuest: boolean;
   loading: boolean;
   authError: string | null;
   currentRole: UserRole;
   switchRole: (role: UserRole) => void;
   clearAuthError: () => void;
+  signInWithEmail: (email: string, password: string) => Promise<void>;
+  signUpWithEmail: (email: string, password: string, name?: string) => Promise<void>;
   signInWithGoogle: () => Promise<void>;
+  continueAsGuest: () => void;
   signOut: () => Promise<void>;
 }
 
@@ -72,6 +81,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [session, setSession] = useState<Session | null>(null);
   const [supabaseUser, setSupabaseUser] = useState<SupabaseUser | null>(null);
   const [currentRole, setCurrentRole] = useState<UserRole>('police');
+  const [isGuest, setIsGuest] = useState(false);
   const [loading, setLoading] = useState(true);
   const [authError, setAuthError] = useState<string | null>(null);
 
@@ -101,7 +111,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const errorCode = hashParams.get('error') || searchParams.get('error');
 
     if (errorDesc || errorCode) {
-      setAuthError(decodeURIComponent(errorDesc || errorCode || 'Google authentication failed'));
+      setAuthError(decodeURIComponent(errorDesc || errorCode || 'Authentication failed'));
       sanitizeUrl();
     }
 
@@ -130,6 +140,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setSupabaseUser(session?.user ?? null);
         setLoading(false);
         if (session) {
+          setIsGuest(false);
           sanitizeUrl();
         }
       }
@@ -144,6 +155,32 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setCurrentRole(newRole);
   };
 
+  const signInWithEmail = async (email: string, password: string) => {
+    try {
+      setAuthError(null);
+      await authSignIn({ email, password });
+      setIsGuest(false);
+    } catch (err: any) {
+      setAuthError(err.message || 'Failed to sign in with email');
+      throw err;
+    }
+  };
+
+  const signUpWithEmail = async (email: string, password: string, name?: string) => {
+    try {
+      setAuthError(null);
+      await authSignUp({
+        email,
+        password,
+        options: name ? { data: { full_name: name } } : undefined,
+      });
+      setIsGuest(false);
+    } catch (err: any) {
+      setAuthError(err.message || 'Failed to sign up');
+      throw err;
+    }
+  };
+
   const signInWithGoogle = async () => {
     try {
       setAuthError(null);
@@ -154,9 +191,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const continueAsGuest = () => {
+    setAuthError(null);
+    setIsGuest(true);
+  };
+
   const signOut = async () => {
     try {
       setAuthError(null);
+      setIsGuest(false);
       await authSignOut();
       setSession(null);
       setSupabaseUser(null);
@@ -192,13 +235,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     session,
     supabaseUser,
     user: appUser,
-    isAuthenticated: !!session,
+    isAuthenticated: !!session || isGuest,
+    isGuest,
     loading,
     authError,
     currentRole,
     switchRole,
     clearAuthError,
+    signInWithEmail,
+    signUpWithEmail,
     signInWithGoogle,
+    continueAsGuest,
     signOut,
   };
 
