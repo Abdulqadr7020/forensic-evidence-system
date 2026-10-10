@@ -6,15 +6,16 @@ Sentinel DMS is a Document Management System built as a React Single Page Applic
 ## Core Value
 Providing a premium, modern, and highly polished interface for secure document and case management.
 
-## Current Milestone: v1.2 Authentication & Authorization
+## Current Milestone: v1.3 AES-256-GCM Encryption & Secure Storage
 
-**Goal:** Implement a secure authentication system using Supabase with a premium UI.
+**Goal:** Build a Node.js crypto encryption backend service using `node:crypto` AES-256-GCM to securely encrypt evidence files and sensitive database fields before storing them in Supabase, along with verification and retrieval.
 
 **Target features:**
-- Supabase integration for backend authentication
-- Email/Password and Google OAuth sign-in methods
-- Sleek, glassmorphic Login and Sign-up UI matching the existing theme
-- Route protection (redirecting unauthenticated users to the login page)
+- Node.js crypto service implementing AES-256-GCM with 12-byte IV and 16-byte authentication tags
+- Backend API server handling upload ingestion, encryption, and Supabase persistence
+- Encrypted file storage in Supabase Storage with cryptographic hash generation (SHA-256 plaintext/ciphertext)
+- Sensitive database field encryption for case dossier and evidence metadata
+- Ingestion and creation modal integration with live encryption status and Merkle leaf generation
 
 ## Requirements
 
@@ -29,15 +30,17 @@ Providing a premium, modern, and highly polished interface for secure document a
 - ✓ Standardize component consistency (buttons, inputs, modals) across all views — Phase 2
 - ✓ Ensure full accessibility and mobile responsiveness — Phase 4
 - ✓ Simple plain-language Integrity Verification UI — Quick update
+- ✓ Supabase integration for backend authentication — Phase 6
+- ✓ Email/Password and Google OAuth sign-in methods — Phase 6 & 7
+- ✓ Sleek, glassmorphic Login and Sign-up UI matching the existing theme — Phase 8
+- ✓ Route protection (redirecting unauthenticated users to the login page) — Phase 8
 
 ### Active
-- [ ] Rename all evidence file names in mock data to plain English
-- [ ] Rename all case names and IDs to be short and descriptive
-- [ ] Update any terminology to be easily understandable by non-technical users
-- [ ] Supabase integration for backend authentication
-- [ ] Email/Password and Google OAuth sign-in methods
-- [ ] Sleek, glassmorphic Login and Sign-up UI matching the existing theme
-- [ ] Route protection (redirecting unauthenticated users to the login page)
+- [ ] Node.js backend API and AES-256-GCM encryption service using inbuilt `node:crypto`
+- [ ] Encrypted file upload to Supabase Storage with random IV and authentication tag
+- [ ] Field-level encryption for sensitive database columns in Supabase tables
+- [ ] Ingest evidence and create case workflows linked to backend encryption service
+- [ ] Decrypted download/preview pipeline with integrity verification
 
 ### Out of Scope
 - [Major backend changes] — Focus is entirely on frontend UI polish and UX improvement.
@@ -75,4 +78,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-10-09 after milestone v1.2 initialization*
+*Last updated: 2026-10-10 after milestone v1.3 initialization*
