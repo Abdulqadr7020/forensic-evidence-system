@@ -32,6 +32,7 @@ export const AuthView: React.FC = () => {
     continueAsGuest,
     authError,
     clearAuthError,
+    isConfigured,
   } = useAuth();
 
   const [mode, setMode] = useState<'signin' | 'signup'>('signin');
@@ -128,6 +129,16 @@ export const AuthView: React.FC = () => {
             {mode === 'signin' ? 'Welcome back, Officer' : 'Register Judicial Clearance'}
           </p>
         </div>
+
+        {/* Advisory banner if Supabase credentials are placeholders */}
+        {!isConfigured && (
+          <div className="flex items-start gap-2.5 p-3 mb-5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs">
+            <Sparkles className="w-4 h-4 shrink-0 mt-0.5 text-amber-400" />
+            <div className="flex-1 text-[11px] leading-relaxed">
+              <span className="font-semibold text-amber-200">Demo Environment:</span> Supabase URL & Key not yet configured in <code className="text-white font-mono bg-white/10 px-1 py-0.5 rounded">.env.local</code>. Click <button type="button" onClick={continueAsGuest} className="text-cyan-300 underline font-medium hover:text-cyan-200 ml-0.5">Explore as Guest</button> below to test all dashboard features.
+            </div>
+          </div>
+        )}
 
         {/* Google OAuth Button on Top */}
         <div className="space-y-4">

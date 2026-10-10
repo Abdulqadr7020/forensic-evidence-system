@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { Session, User as SupabaseUser } from '@supabase/supabase-js';
-import { supabase } from '../lib/supabase';
+import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import { User, UserRole } from '../types/auth';
 import {
   signIn as authSignIn,
@@ -63,6 +63,7 @@ export interface AuthContextType {
   user: User;
   isAuthenticated: boolean;
   isGuest: boolean;
+  isConfigured: boolean;
   loading: boolean;
   authError: string | null;
   currentRole: UserRole;
@@ -115,6 +116,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       sanitizeUrl();
     }
 
+    if (!isSupabaseConfigured) {
+      setLoading(false);
+      return;
+    }
+
     // Fetch initial session
     const initializeAuth = async () => {
       try {
@@ -125,7 +131,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           sanitizeUrl();
         }
       } catch (err: any) {
-        setAuthError(err.message || 'Error initializing auth session');
+        console.warn('Error initializing auth session:', err);
       } finally {
         setLoading(false);
       }
@@ -237,6 +243,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     user: appUser,
     isAuthenticated: !!session || isGuest,
     isGuest,
+    isConfigured: isSupabaseConfigured,
     loading,
     authError,
     currentRole,
