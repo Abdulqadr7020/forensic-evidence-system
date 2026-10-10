@@ -41,7 +41,7 @@ const DEFAULT_USERS: Record<UserRole, User> = {
     id: 'usr_adm_0001',
     badgeNumber: 'SYS-001',
     name: 'Security Admin Maya Thorne',
-    email: 'm.thorne@sentinel.security',
+    email: 'm.thorne@forencrypt.security',
     role: 'admin',
     department: 'Information Security & Access Governance',
     lastLogin: '2026-10-09T02:40:00Z',

@@ -43,7 +43,7 @@ const AppContent: React.FC = () => {
   };
 
   const breadcrumbs = [
-    'Sentinel DMS',
+    'ForenCrypt',
     tabLabels[currentTab] || 'Overview',
   ];
 

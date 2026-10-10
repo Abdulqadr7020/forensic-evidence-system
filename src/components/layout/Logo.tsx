@@ -21,8 +21,8 @@ export const Logo: React.FC<{ isCollapsed?: boolean }> = ({ isCollapsed = false 
 
       {!isCollapsed && (
         <div className="flex items-center gap-1.5">
-          <span className="font-semibold text-xs tracking-tight text-[var(--text-primary)] uppercase">
-            Sentinel
+          <span className="font-bold text-xs tracking-tight text-[var(--text-primary)]">
+            ForenCrypt
           </span>
           <span className="text-[10px] font-mono font-medium px-1 py-0.2 rounded border border-[var(--border-strong)] text-[var(--text-secondary)]">
             DMS

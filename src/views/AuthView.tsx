@@ -122,7 +122,7 @@ export const AuthView: React.FC = () => {
           </div>
 
           <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-white flex items-center justify-center gap-2">
-            Sentinel DMS
+            ForenCrypt
           </h1>
 
           <p className="text-xs text-neutral-400 mt-1 font-mono">
@@ -225,7 +225,7 @@ export const AuthView: React.FC = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="officer@sentinel.security"
+                placeholder="officer@forencrypt.security"
                 className="w-full h-10 pl-9 pr-3 rounded-lg border border-white/[0.08] bg-black/30 text-white text-xs placeholder:text-neutral-600 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-colors"
               />
             </div>

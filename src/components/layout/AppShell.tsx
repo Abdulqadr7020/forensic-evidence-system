@@ -13,7 +13,7 @@ export interface AppShellProps {
 
 export const AppShell: React.FC<AppShellProps> = ({
   children,
-  breadcrumbs = ['Sentinel DMS', 'Overview'],
+  breadcrumbs = ['ForenCrypt', 'Overview'],
   currentTab,
   onSelectTab,
   onNavigateToDocument,

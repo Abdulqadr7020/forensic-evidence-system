@@ -21,7 +21,7 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('Sentinel DMS uncaught error:', error, errorInfo);
+    console.error('ForenCrypt uncaught error:', error, errorInfo);
   }
 
   private handleReload = () => {
