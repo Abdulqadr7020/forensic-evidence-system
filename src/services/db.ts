@@ -143,6 +143,19 @@ export const fetchTransfers = async (): Promise<EvidenceTransferRecord[]> => {
   }
 };
 
+export const updateTransferStatus = async (id: string, status: string): Promise<boolean> => {
+  if (!isSupabaseConfigured) return true;
+  try {
+    const { error } = await supabase
+      .from('evidence_transfers')
+      .update({ status })
+      .eq('id', id);
+    return !error;
+  } catch {
+    return false;
+  }
+};
+
 export const fetchAlerts = async (): Promise<SecurityAlertRecord[]> => {
   if (!isSupabaseConfigured) return FIXTURE_ALERTS;
   try {

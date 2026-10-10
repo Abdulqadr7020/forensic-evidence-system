@@ -20,6 +20,8 @@ export type DocumentStatus =
 
 export type EvidenceTransferStatus = 
   | 'REQUESTED'
+  | 'PENDING_DISPATCH'
+  | 'IN_TRANSIT'
   | 'AWAITING_ACCEPTANCE'
   | 'ACCEPTED'
   | 'REJECTED'
