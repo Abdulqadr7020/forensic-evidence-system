@@ -3,38 +3,40 @@
 **Defined:** 2026-10-09
 **Core Value:** Providing a premium, modern, and highly polished interface for secure document and case management.
 
-## v1.1 Requirements
+## v1.2 Requirements
 
-### Data Readability
+### Authentication
+- [ ] **AUTH-01**: User can sign up and log in using an email and password via Supabase.
+- [ ] **AUTH-02**: User can sign up and log in using Google OAuth via Supabase.
+- [ ] **AUTH-03**: Unauthenticated users are automatically redirected to the Login page when trying to access the dashboard or any protected routes.
 
-- [ ] **DATA-01**: Rename all mock evidence files to simple plain English (e.g., "Signed FIR.pdf")
-- [ ] **DATA-02**: Rename all mock case names to be short and descriptive (e.g., "Robbery Case")
-- [ ] **DATA-03**: Remove complex developer jargon (SHA-256, Merkle) from mock data fields
+### User Interface
+- [ ] **UI-01**: User sees a sleek, glassmorphic Login and Sign-up page that seamlessly matches the existing modern dark-mode aesthetic.
 
 ## v2 Requirements
-
 (None)
 
 ## Out of Scope
 
 | Feature | Reason |
 |---------|--------|
-| Database Integration | Currently using mock data; backend integration deferred |
-| Real user profiles | Focus is on UI and readability of existing mock data |
+| Advanced role-based access control (RBAC) | Focus is on simple authentication for this milestone. |
+| User profile management (e.g. changing avatar, password reset flow) | Will be added in a future milestone. Focus is only on sign in/up. |
 
 ## Traceability
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DATA-01 | Phase 5 | Pending |
-| DATA-02 | Phase 5 | Pending |
-| DATA-03 | Phase 5 | Pending |
+| AUTH-01 | | Pending |
+| AUTH-02 | | Pending |
+| AUTH-03 | | Pending |
+| UI-01 | | Pending |
 
 **Coverage:**
-- v1 requirements: 3 total
-- Mapped to phases: 3
-- Unmapped: 0 ✓
+- v1 requirements: 4 total
+- Mapped to phases: 0
+- Unmapped: 4 
 
 ---
 *Requirements defined: 2026-10-09*
-*Last updated: 2026-10-09 after milestone v1.1 initialization*
+*Last updated: 2026-10-09 after milestone v1.2 initialization*
