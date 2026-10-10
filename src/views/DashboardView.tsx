@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PageHeader } from '../components/layout/PageHeader';
 import { Button } from '../components/ui/Button';
@@ -28,13 +28,8 @@ import { EvidenceFolderCard } from '../components/ui/EvidenceFolderCard';
 import { CaseFolderCard } from '../components/ui/CaseFolderCard';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
-import {
-  FIXTURE_CASES,
-  FIXTURE_DOCUMENTS,
-  FIXTURE_TRANSFERS,
-  FIXTURE_ALERTS,
-  getVerificationDetailForDoc,
-} from '../data/fixtures';
+import { getVerificationDetailForDoc } from '../data/fixtures';
+import { fetchCases, fetchDocuments, fetchAlerts, fetchTransfers } from '../services/db';
 import { DocumentRecord, SecurityAlertRecord, EvidenceTransferRecord, CaseRecord } from '../types/models';
 import {
   ShieldAlert,
@@ -63,15 +58,27 @@ export const DashboardView: React.FC = () => {
   // Test state mode to verify Normal / Loading / Empty / Error states as required
   const [viewState, setViewState] = useState<'normal' | 'loading' | 'empty' | 'error'>('normal');
 
-  // Active documents & alerts data
-  const [documents, setDocuments] = useState<DocumentRecord[]>(FIXTURE_DOCUMENTS);
-  const [alerts, setAlerts] = useState<SecurityAlertRecord[]>(FIXTURE_ALERTS);
-  const [transfers, setTransfers] = useState<EvidenceTransferRecord[]>(FIXTURE_TRANSFERS);
+  // Active documents, cases, alerts & transfers data
+  const [cases, setCases] = useState<CaseRecord[]>([]);
+  const [documents, setDocuments] = useState<DocumentRecord[]>([]);
+  const [alerts, setAlerts] = useState<SecurityAlertRecord[]>([]);
+  const [transfers, setTransfers] = useState<EvidenceTransferRecord[]>([]);
 
   // Modals state
   const [isIngestModalOpen, setIsIngestModalOpen] = useState(false);
   const [inspectedDoc, setInspectedDoc] = useState<DocumentRecord | null>(null);
   const [selectedCase, setSelectedCase] = useState<CaseRecord | null>(null);
+
+  useEffect(() => {
+    Promise.all([fetchCases(), fetchDocuments(), fetchAlerts(), fetchTransfers()])
+      .then(([casesData, docsData, alertsData, trfsData]) => {
+        setCases(casesData);
+        setDocuments(docsData);
+        setAlerts(alertsData);
+        setTransfers(trfsData);
+      })
+      .catch((err) => console.warn('Error loading live dashboard data:', err));
+  }, []);
 
   // Document verification modal trigger
   const handleInspectVerification = (doc: DocumentRecord) => {
@@ -134,7 +141,7 @@ export const DashboardView: React.FC = () => {
   };
 
   // Metrics calculation
-  const totalCases = FIXTURE_CASES.length;
+  const totalCases = cases.length;
   const totalDocs = documents.length;
   const pendingTransfers = transfers.filter((t) => t.status === 'AWAITING_ACCEPTANCE').length;
   const verifiedDocsCount = documents.filter((d) => d.integrityStatus === 'VERIFIED').length;
@@ -398,7 +405,7 @@ export const DashboardView: React.FC = () => {
 
                 {caseViewMode === 'folder' ? (
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 p-1">
-                    {FIXTURE_CASES.map((c) => (
+                    {cases.map((c) => (
                       <CaseFolderCard
                         key={c.id}
                         caseRecord={c}
@@ -408,7 +415,7 @@ export const DashboardView: React.FC = () => {
                   </div>
                 ) : (
                   <div className="divide-y divide-[var(--border-subtle)]">
-                    {FIXTURE_CASES.map((c) => (
+                    {cases.map((c) => (
                       <div
                         key={c.id}
                         className="py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 hover:bg-[var(--surface-hover)] -mx-4 px-4 sm:-mx-5 sm:px-5 transition-colors"

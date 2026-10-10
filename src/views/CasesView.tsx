@@ -13,7 +13,7 @@ import {
   TableHead,
   TableCell,
 } from '../components/ui/Table';
-import { FIXTURE_CASES } from '../data/fixtures';
+import { fetchCases } from '../services/db';
 import { CaseRecord } from '../types/models';
 import { CreateCaseModal } from '../components/modals/CreateCaseModal';
 import { CaseFolderCard } from '../components/ui/CaseFolderCard';
@@ -21,11 +21,18 @@ import { CaseDetailsModal } from '../components/modals/CaseDetailsModal';
 import { Plus, Search, LayoutGrid, List } from 'lucide-react';
 
 export const CasesView: React.FC = () => {
-  const [cases, setCases] = useState<CaseRecord[]>(FIXTURE_CASES);
+  const [cases, setCases] = useState<CaseRecord[]>([]);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [selectedCase, setSelectedCase] = useState<CaseRecord | null>(null);
   const [viewMode, setViewMode] = useState<'folder' | 'table'>('folder');
+
+  React.useEffect(() => {
+    fetchCases()
+      .then((data) => setCases(data))
+      .finally(() => setLoading(false));
+  }, []);
 
   const handleCaseCreated = (newCase: CaseRecord) => {
     setCases((prev) => [newCase, ...prev]);

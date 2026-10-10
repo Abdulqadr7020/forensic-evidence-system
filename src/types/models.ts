@@ -61,6 +61,8 @@ export interface DocumentRecord {
   sha256Ciphertext: string;
   merkleLeafHash: string;
   checkpointSequence: number;
+  iv?: string;
+  authTag?: string;
 }
 
 export interface EvidenceTransferRecord {

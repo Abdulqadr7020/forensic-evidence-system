@@ -6,18 +6,18 @@
 ## v1.3 Requirements
 
 ### Cryptography Core
-- [ ] **CRYPTO-01**: System can encrypt evidence files and data payloads using Node.js inbuilt `node:crypto` AES-256-GCM with a 32-byte master key, unique 12-byte random IV, and 16-byte authentication tag.
-- [ ] **CRYPTO-02**: System computes SHA-256 digests for plaintext and ciphertext payloads, enabling verified digital chain-of-custody.
-- [ ] **CRYPTO-03**: System authenticates and decrypts payloads via `node:crypto.createDecipheriv` with GCM tag verification, rejecting tampered data.
+- [x] **CRYPTO-01**: System can encrypt evidence files and data payloads using Node.js inbuilt `node:crypto` AES-256-GCM with a 32-byte master key, unique 12-byte random IV, and 16-byte authentication tag.
+- [x] **CRYPTO-02**: System computes SHA-256 digests for plaintext and ciphertext payloads, enabling verified digital chain-of-custody.
+- [x] **CRYPTO-03**: System authenticates and decrypts payloads via `node:crypto.createDecipheriv` with GCM tag verification, rejecting tampered data.
 
 ### Storage & Persistence
-- [ ] **STORE-01**: Express backend API handles multipart file uploads and persists AES-256-GCM encrypted payloads to Supabase Storage (`evidence-vault`).
-- [ ] **STORE-02**: System provides field-level AES-256-GCM encryption for sensitive database fields when writing records to Supabase tables.
-- [ ] **STORE-03**: Backend API provides authenticated download and streaming decryption with MIME-type headers.
+- [x] **STORE-01**: Express backend API handles multipart file uploads and persists AES-256-GCM encrypted payloads to Supabase Storage (`evidence-vault`).
+- [x] **STORE-02**: System provides field-level AES-256-GCM encryption for sensitive database fields when writing records to Supabase tables.
+- [x] **STORE-03**: Backend API provides authenticated download and streaming decryption with MIME-type headers.
 
 ### Ingestion & Workflow
-- [ ] **INGEST-01**: Ingest Evidence Modal connects to the backend API, displaying real-time cryptographic hashing, AES-256-GCM encryption, and Supabase commit progress.
-- [ ] **INGEST-02**: Documents view allows inspecting cryptographic metadata (IV, auth tag, SHA-256 hashes) and initiating verified download.
+- [x] **INGEST-01**: Ingest Evidence Modal connects to the backend API, displaying real-time cryptographic hashing, AES-256-GCM encryption, and Supabase commit progress.
+- [x] **INGEST-02**: Documents view allows inspecting cryptographic metadata (IV, auth tag, SHA-256 hashes) and initiating verified download.
 
 ## Future Requirements
 
@@ -36,18 +36,19 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CRYPTO-01 | Phase 9 | Pending |
-| CRYPTO-02 | Phase 9 | Pending |
-| CRYPTO-03 | Phase 9 | Pending |
-| STORE-01 | Phase 10 | Pending |
-| STORE-02 | Phase 10 | Pending |
-| STORE-03 | Phase 10 | Pending |
-| INGEST-01 | Phase 11 | Pending |
-| INGEST-02 | Phase 11 | Pending |
+| CRYPTO-01 | Phase 9 | Complete |
+| CRYPTO-02 | Phase 9 | Complete |
+| CRYPTO-03 | Phase 9 | Complete |
+| STORE-01 | Phase 10 | Complete |
+| STORE-02 | Phase 10 | Complete |
+| STORE-03 | Phase 10 | Complete |
+| INGEST-01 | Phase 11 | Complete |
+| INGEST-02 | Phase 11 | Complete |
 
 **Coverage:**
 - v1.3 requirements: 8 total
 - Mapped to phases: 8
+- Completed: 8
 - Unmapped: 0
 
 ---

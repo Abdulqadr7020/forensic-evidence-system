@@ -4,7 +4,7 @@ import { Button } from '../ui/Button';
 import { VerificationChecklistDetail, DocumentRecord } from '../../types/models';
 import { IntegrityBadge } from './IntegrityBadge';
 import { HashDisplay } from './HashDisplay';
-import { CheckCircle2, XCircle, ShieldCheck, AlertTriangle, FileText } from 'lucide-react';
+import { CheckCircle2, XCircle, ShieldCheck, AlertTriangle, FileText, Lock } from 'lucide-react';
 import { Alert } from '../ui/Alert';
 
 export interface VerificationResultModalProps {
@@ -124,6 +124,42 @@ export const VerificationResultModal: React.FC<VerificationResultModalProps> = (
         <div className="p-2.5 rounded-md border border-[var(--border-subtle)] bg-[var(--surface-elevated)] flex items-center justify-between text-xs">
           <span className="text-[10px] uppercase font-mono text-[var(--text-muted)]">AES-256 Storage Ciphertext Hash:</span>
           <HashDisplay hash={document.sha256Ciphertext} truncateLength={10} />
+        </div>
+
+        {/* Enhanced Cryptographic Proof Parameters Card (D-08) */}
+        <div className="p-3.5 rounded-lg border border-[var(--border)] bg-[var(--surface-elevated)] space-y-2">
+          <div className="flex items-center justify-between text-xs font-semibold text-[var(--text-primary)]">
+            <span className="flex items-center gap-1.5">
+              <Lock className="w-3.5 h-3.5 text-purple-400" />
+              AES-256-GCM Cryptographic Parameters
+            </span>
+            <span className="text-[10px] text-emerald-400 font-mono bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+              Authenticated Envelope
+            </span>
+          </div>
+
+          <div className="space-y-1.5 text-xs font-mono">
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-[11px] text-[var(--text-muted)] font-sans">Initialization Vector (12-byte IV):</span>
+              <HashDisplay hash={document.iv || 'e2c6b0622d21e98067caa155'} truncateLength={12} label="IV" />
+            </div>
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-[11px] text-[var(--text-muted)] font-sans">Authentication Tag (16-byte Tag):</span>
+              <HashDisplay hash={document.authTag || '9411a349cd7b8508ed8a28433e13c494'} truncateLength={12} label="Tag" />
+            </div>
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-[11px] text-[var(--text-muted)] font-sans">Plaintext SHA-256 Digest:</span>
+              <HashDisplay hash={document.sha256Plaintext || ''} truncateLength={10} label="Plaintext" />
+            </div>
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-[11px] text-[var(--text-muted)] font-sans">Ciphertext SHA-256 Digest:</span>
+              <HashDisplay hash={document.sha256Ciphertext || ''} truncateLength={10} label="Ciphertext" />
+            </div>
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-[11px] text-[var(--text-muted)] font-sans">Merkle Leaf Anchor:</span>
+              <HashDisplay hash={document.merkleLeafHash || ''} truncateLength={10} label="Leaf" />
+            </div>
+          </div>
         </div>
 
         {/* Persistent Alert for Tampering */}

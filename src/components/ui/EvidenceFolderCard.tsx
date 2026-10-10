@@ -1,25 +1,53 @@
 import React from 'react';
 import { DocumentRecord } from '../../types/models';
+import { Download } from 'lucide-react';
 
 export interface EvidenceFolderCardProps {
   document: DocumentRecord;
   onInspectProof: (doc: DocumentRecord) => void;
+  onDownload?: (doc: DocumentRecord) => void;
 }
 
 export const EvidenceFolderCard: React.FC<EvidenceFolderCardProps> = ({
   document,
   onInspectProof,
+  onDownload,
 }) => {
   const isTampered = document.integrityStatus === 'TAMPERING_DETECTED';
 
+  const handleDownloadClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (onDownload) {
+      onDownload(document);
+    }
+  };
+
   return (
-    <button
-      type="button"
+    <div
+      role="button"
+      tabIndex={0}
       onClick={() => onInspectProof(document)}
-      title={`Click to view all details for ${document.name}`}
-      className="group flex flex-col items-center justify-between p-3.5 rounded-xl border border-[var(--border)] hover:border-[var(--border-strong)] bg-[var(--surface)] hover:bg-[var(--surface-hover)] transition-all duration-200 cursor-pointer select-none text-left w-full h-full shadow-xs hover:shadow-md focus-glow"
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          onInspectProof(document);
+        }
+      }}
+      title={`Click to inspect cryptographic proof for ${document.name}`}
+      className="group relative flex flex-col items-center justify-between p-3 rounded-xl border border-[var(--border)] hover:border-[var(--border-strong)] bg-[var(--surface)] hover:bg-[var(--surface-hover)] transition-all duration-200 cursor-pointer select-none text-left w-full h-full shadow-xs hover:shadow-md focus-glow"
     >
-      {/* ── Blank Small Logo (Minimalist Evidence Folder Graphic) ── */}
+      {/* Quick Download Action button */}
+      {onDownload && (
+        <button
+          type="button"
+          onClick={handleDownloadClick}
+          title="Download & Decrypt Evidence File"
+          className="absolute top-2 right-2 p-1.5 rounded-lg bg-[var(--surface-elevated)] hover:bg-sky-500/20 text-[var(--text-muted)] hover:text-sky-400 border border-[var(--border)] transition-colors z-10"
+        >
+          <Download className="w-3.5 h-3.5" />
+        </button>
+      )}
+
+      {/* ── Evidence Folder Graphic ── */}
       <div className="relative flex items-center justify-center w-14 h-12 sm:w-16 sm:h-14 my-1 transition-transform duration-200 group-hover:scale-108 shrink-0">
         <svg
           viewBox="0 0 64 52"
@@ -33,7 +61,7 @@ export const EvidenceFolderCard: React.FC<EvidenceFolderCardProps> = ({
             className="fill-sky-500/25 dark:fill-sky-400/20 stroke-sky-500/40 dark:stroke-sky-400/30"
             strokeWidth="1.5"
           />
-          {/* Front Pocket / Flap (Blank) */}
+          {/* Front Pocket / Flap */}
           <path
             d="M4 19C4 15.6863 6.68629 13 10 13H54C57.3137 13 60 15.6863 60 19V42C60 45.3137 57.3137 48 54 48H10C6.68629 48 4 45.3137 4 42V19Z"
             className="fill-sky-500/85 dark:fill-sky-500/75 stroke-sky-600/50 dark:stroke-sky-400/40"
@@ -62,6 +90,6 @@ export const EvidenceFolderCard: React.FC<EvidenceFolderCardProps> = ({
           {document.caseNumber}
         </p>
       </div>
-    </button>
+    </div>
   );
 };

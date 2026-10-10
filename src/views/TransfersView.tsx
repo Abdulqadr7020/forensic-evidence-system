@@ -4,13 +4,21 @@ import { Button } from '../components/ui/Button';
 import { Card, CardHeader, CardTitle, CardDescription } from '../components/ui/Card';
 import { Badge } from '../components/ui/Badge';
 import { CustodyTimelineView, CustodyTimelineNode } from '../components/security/CustodyTimelineView';
-import { FIXTURE_TRANSFERS } from '../data/fixtures';
+import { fetchTransfers } from '../services/db';
+import { EvidenceTransferRecord } from '../types/models';
 import { useToast } from '../context/ToastContext';
 import { ArrowLeftRight, CheckCircle2 } from 'lucide-react';
 
 export const TransfersView: React.FC = () => {
   const { success } = useToast();
-  const [transfers, setTransfers] = useState(FIXTURE_TRANSFERS);
+  const [transfers, setTransfers] = useState<EvidenceTransferRecord[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  React.useEffect(() => {
+    fetchTransfers()
+      .then((data) => setTransfers(data))
+      .finally(() => setLoading(false));
+  }, []);
 
   const mockTimelineEvents: CustodyTimelineNode[] = [
     {

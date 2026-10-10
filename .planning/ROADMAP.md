@@ -1,6 +1,6 @@
 # Roadmap (Milestone v1.3: AES-256-GCM Encryption & Secure Storage)
 
-## Phase 9: Node.js AES-256-GCM Crypto Engine & Master Key Configuration
+## Phase 9: Node.js AES-256-GCM Crypto Engine & Master Key Configuration (Completed)
 **Goal:** Implement the cryptographic core module in Node.js using `node:crypto` with AES-256-GCM authenticated encryption/decryption, SHA-256 digests, CSPRNG 12-byte IV generation, and 16-byte authentication tag verification.  
 **Requirements:** 
 - CRYPTO-01: AES-256-GCM Encryption Engine
@@ -14,7 +14,7 @@
 
 ---
 
-## Phase 10: Backend Persistence API & Supabase Storage Integration
+## Phase 10: Backend Persistence API & Supabase Storage Integration (Completed)
 **Goal:** Build Express backend server endpoints to handle multipart evidence file uploads, write encrypted payloads to Supabase Storage (`evidence-vault`), and store encrypted records with field-level encryption in Supabase tables.  
 **Requirements:** 
 - STORE-01: Multipart Upload to Supabase Storage Bucket
@@ -28,7 +28,7 @@
 
 ---
 
-## Phase 11: Frontend Modal Integration & Verified Cryptographic Pipeline
+## Phase 11: Frontend Modal Integration & Verified Cryptographic Pipeline (Completed)
 **Goal:** Connect the Ingest Evidence Modal, Create Case Modal, and Documents view to the backend cryptographic API, showing real-time encryption feedback and enabling verified evidence downloads.  
 **Requirements:** 
 - INGEST-01: Real-Time Cryptographic Ingestion Modal

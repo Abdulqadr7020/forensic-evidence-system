@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PageHeader } from '../components/layout/PageHeader';
 import { Button } from '../components/ui/Button';
 import { Card, CardHeader, CardTitle, CardDescription } from '../components/ui/Card';
@@ -16,18 +16,88 @@ import {
 import { IntegrityBadge } from '../components/security/IntegrityBadge';
 import { HashDisplay } from '../components/security/HashDisplay';
 import { VerificationResultModal } from '../components/security/VerificationResultModal';
+import { TamperAlertModal } from '../components/security/TamperAlertModal';
 import { IngestEvidenceModal } from '../components/modals/IngestEvidenceModal';
 import { EvidenceFolderCard } from '../components/ui/EvidenceFolderCard';
-import { FIXTURE_DOCUMENTS, getVerificationDetailForDoc } from '../data/fixtures';
+import { getVerificationDetailForDoc } from '../data/fixtures';
+import { fetchDocuments } from '../services/db';
 import { DocumentRecord } from '../types/models';
-import { Plus, Search, LayoutGrid, List } from 'lucide-react';
+import { Plus, Search, LayoutGrid, List, Download, Loader2 } from 'lucide-react';
+import { useToast } from '../context/ToastContext';
 
 export const DocumentsView: React.FC = () => {
-  const [documents, setDocuments] = useState<DocumentRecord[]>(FIXTURE_DOCUMENTS);
+  const { success, warning, error: toastError } = useToast();
+  const [documents, setDocuments] = useState<DocumentRecord[]>([]);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [selectedDoc, setSelectedDoc] = useState<DocumentRecord | null>(null);
   const [isIngestOpen, setIsIngestOpen] = useState(false);
   const [viewMode, setViewMode] = useState<'folder' | 'table'>('folder');
+
+  // Download & Tamper state
+  const [downloadingId, setDownloadingId] = useState<string | null>(null);
+  const [tamperDoc, setTamperDoc] = useState<DocumentRecord | null>(null);
+  const [tamperError, setTamperError] = useState<string | undefined>(undefined);
+
+  const loadDocuments = () => {
+    setLoading(true);
+    fetchDocuments()
+      .then((data) => setDocuments(data))
+      .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    loadDocuments();
+  }, []);
+
+  const handleDownload = async (doc: DocumentRecord) => {
+    setDownloadingId(doc.id);
+    try {
+      const response = await fetch(`http://localhost:3001/api/evidence/${doc.id}/download`);
+
+      if (response.status === 400) {
+        const errorJson = await response.json().catch(() => ({}));
+        if (errorJson.error === 'TAMPER_DETECTED' || errorJson.message?.includes('Cryptographic integrity check failed')) {
+          setTamperDoc(doc);
+          setTamperError(errorJson.message || 'AES-256-GCM authentication tag mismatch detected.');
+          warning('Tamper Detected', `Integrity check failed for evidence ${doc.name}. Download blocked.`);
+          return;
+        }
+      }
+
+      if (!response.ok) {
+        throw new Error(`Download failed with status ${response.status}`);
+      }
+
+      // Extract filename from Content-Disposition header if available
+      let filename = doc.name;
+      const disposition = response.headers.get('content-disposition');
+      if (disposition && disposition.includes('filename=')) {
+        const match = disposition.match(/filename="?([^";]+)"?/);
+        if (match && match[1]) {
+          filename = decodeURIComponent(match[1]);
+        }
+      }
+
+      // Stream blob to file
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+
+      success('Evidence Decrypted & Downloaded', `Verified AES-256-GCM authentication tag for ${filename}.`);
+    } catch (err) {
+      console.error('Download error:', err);
+      toastError('Download Failed', err instanceof Error ? err.message : 'Unable to download evidence file.');
+    } finally {
+      setDownloadingId(null);
+    }
+  };
 
   const filteredDocs = documents.filter(
     (d) =>
@@ -99,13 +169,23 @@ export const DocumentsView: React.FC = () => {
           </div>
         </CardHeader>
 
-        {viewMode === 'folder' ? (
+        {loading ? (
+          <div className="flex items-center justify-center p-12 text-[var(--text-muted)] text-sm gap-2">
+            <Loader2 className="w-4 h-4 animate-spin text-sky-400" />
+            <span>Loading encrypted document catalog...</span>
+          </div>
+        ) : filteredDocs.length === 0 ? (
+          <div className="p-8 text-center text-sm text-[var(--text-muted)]">
+            No evidence records found matching your filter.
+          </div>
+        ) : viewMode === 'folder' ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4 p-1">
             {filteredDocs.map((doc) => (
               <EvidenceFolderCard
                 key={doc.id}
                 document={doc}
                 onInspectProof={(d) => setSelectedDoc(d)}
+                onDownload={handleDownload}
               />
             ))}
           </div>
@@ -120,7 +200,7 @@ export const DocumentsView: React.FC = () => {
                   <TableHead>Classification</TableHead>
                   <TableHead>Stored Ciphertext Hash</TableHead>
                   <TableHead>Integrity State</TableHead>
-                  <TableHead className="text-right">Action</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -140,19 +220,34 @@ export const DocumentsView: React.FC = () => {
                       </Badge>
                     </TableCell>
                     <TableCell>
-                      <HashDisplay hash={doc.sha256Ciphertext} truncateLength={6} />
+                      <HashDisplay hash={doc.sha256Ciphertext || ''} truncateLength={6} />
                     </TableCell>
                     <TableCell>
                       <IntegrityBadge status={doc.integrityStatus} size="sm" />
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => setSelectedDoc(doc)}
-                      >
-                        Verify Invariant
-                      </Button>
+                      <div className="flex items-center justify-end gap-1.5">
+                        <Button
+                          size="sm"
+                          variant="secondary"
+                          title="Decrypt and download evidence file"
+                          disabled={downloadingId === doc.id}
+                          onClick={() => handleDownload(doc)}
+                        >
+                          {downloadingId === doc.id ? (
+                            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                          ) : (
+                            <Download className="w-3.5 h-3.5" />
+                          )}
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => setSelectedDoc(doc)}
+                        >
+                          Verify Invariant
+                        </Button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -162,6 +257,7 @@ export const DocumentsView: React.FC = () => {
         )}
       </Card>
 
+      {/* Cryptographic Proof Verification Modal */}
       {selectedDoc && (
         <VerificationResultModal
           isOpen={Boolean(selectedDoc)}
@@ -171,6 +267,15 @@ export const DocumentsView: React.FC = () => {
         />
       )}
 
+      {/* Critical Tamper Alert Modal */}
+      <TamperAlertModal
+        isOpen={Boolean(tamperDoc)}
+        onClose={() => setTamperDoc(null)}
+        document={tamperDoc}
+        errorMessage={tamperError}
+      />
+
+      {/* Ingest Evidence Modal */}
       <IngestEvidenceModal
         isOpen={isIngestOpen}
         onClose={() => setIsIngestOpen(false)}
