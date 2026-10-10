@@ -86,7 +86,7 @@ export const AuthView: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen w-full flex items-center justify-center p-4 sm:p-6 overflow-hidden bg-[#07090e] select-none">
+    <div className="relative min-h-screen w-full flex items-center justify-center p-4 sm:p-6 overflow-hidden bg-black select-none">
       {/* Dynamic Ambient Glow Backdrop */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {/* Subtle Cyber Grid */}
