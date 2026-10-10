@@ -1,33 +1,40 @@
-# Requirements
+# Requirements: Sentinel DMS
 
-## Target Scope (Milestone v1.0)
+**Defined:** 2026-10-09
+**Core Value:** Providing a premium, modern, and highly polished interface for secure document and case management.
 
-### Visual Design
+## v1.1 Requirements
 
-- [x] **UI-01**: User experiences a consistent dark mode theme with glassmorphic elements across all views.
-- [x] **UI-02**: User sees vibrant accent colors applied consistently to primary actions and focus states.
+### Data Readability
 
-### Interactions
+- [ ] **DATA-01**: Rename all mock evidence files to simple plain English (e.g., "Signed FIR.pdf")
+- [ ] **DATA-02**: Rename all mock case names to be short and descriptive (e.g., "Robbery Case")
+- [ ] **DATA-03**: Remove complex developer jargon (SHA-256, Merkle) from mock data fields
 
-- [x] **UI-03**: User experiences smooth micro-interactions (hover states, click animations, view transitions) powered by `motion`.
-
-### Components & Consistency
-
-- [x] **UI-04**: User interacts with standardized UI components (buttons, inputs, modals) that share the same visual language across the Dashboard, Audit, Cases, Documents, Integrity, and Transfers views.
-
-### Quality
-
-- [x] **UI-05**: User can fully access the application via keyboard navigation and screen readers, and the UI responds cleanly to mobile and tablet screen sizes.
-
-## Future Requirements (Deferred)
+## v2 Requirements
 
 (None)
 
 ## Out of Scope
 
-- Major backend changes — Focus is on UI polish
-- Testing infrastructure — Deferred to prioritize design
+| Feature | Reason |
+|---------|--------|
+| Database Integration | Currently using mock data; backend integration deferred |
+| Real user profiles | Focus is on UI and readability of existing mock data |
 
 ## Traceability
 
-(To be populated by roadmap)
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| DATA-01 | Phase 5 | Pending |
+| DATA-02 | Phase 5 | Pending |
+| DATA-03 | Phase 5 | Pending |
+
+**Coverage:**
+- v1 requirements: 3 total
+- Mapped to phases: 3
+- Unmapped: 0 ✓
+
+---
+*Requirements defined: 2026-10-09*
+*Last updated: 2026-10-09 after milestone v1.1 initialization*

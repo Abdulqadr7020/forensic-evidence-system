@@ -19,7 +19,7 @@ export const IntegrityBadge: React.FC<IntegrityBadgeProps> = ({
     { label: string; variant: 'success' | 'warning' | 'danger' | 'neutral'; icon: React.ReactNode }
   > = {
     VERIFIED: {
-      label: 'Cryptographically Verified',
+      label: 'Verified Authentic',
       variant: 'success',
       icon: <CheckCircle2 className="w-3 h-3 text-emerald-500" />,
     },
@@ -34,12 +34,12 @@ export const IntegrityBadge: React.FC<IntegrityBadgeProps> = ({
       icon: <ShieldAlert className="w-3 h-3 text-rose-500" />,
     },
     PROOF_INVALID: {
-      label: 'Invalid Proof',
+      label: 'Invalid Evidence',
       variant: 'danger',
       icon: <XCircle className="w-3 h-3 text-rose-500" />,
     },
     LEDGER_INCONSISTENT: {
-      label: 'Ledger Inconsistent',
+      label: 'System Error',
       variant: 'warning',
       icon: <AlertTriangle className="w-3 h-3 text-amber-500" />,
     },

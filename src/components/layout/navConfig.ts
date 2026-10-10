@@ -8,7 +8,6 @@ import {
   ShieldCheck,
   History,
   ShieldAlert,
-  Layers,
 } from 'lucide-react';
 
 export interface NavItem {
@@ -61,11 +60,5 @@ export const NAV_ITEMS: NavItem[] = [
     label: 'Audit Trail',
     icon: History,
     allowedRoles: ['admin', 'auditor'],
-  },
-  {
-    id: 'design-system',
-    label: 'Design System',
-    icon: Layers,
-    allowedRoles: ['police', 'forensic', 'prosecutor', 'admin', 'auditor'],
   },
 ];

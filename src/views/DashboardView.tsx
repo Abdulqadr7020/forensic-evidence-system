@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { PageHeader } from '../components/layout/PageHeader';
 import { Button } from '../components/ui/Button';
 import { MetricCard } from '../components/ui/MetricCard';
@@ -155,17 +156,6 @@ export const DashboardView: React.FC = () => {
           </Button>
         }
       />
-
-      {/* Persistent Critical Security Alert Banner if any tampering is open */}
-      {activeAlertsCount > 0 && viewState === 'normal' && (
-        <Alert
-          variant="danger"
-          title={`CRITICAL SECURITY EVENT: ${activeAlertsCount} Unresolved Integrity Alert(s)`}
-        >
-          Automated cryptographic invariant monitor detected a storage hash mismatch. 
-          Evidence custody verification has flagged potential bit-corruption or unauthorized modification.
-        </Alert>
-      )}
 
       {/* VIEW STATE: LOADING */}
       {viewState === 'loading' && (
@@ -561,15 +551,15 @@ export const DashboardView: React.FC = () => {
                         }`}
                       >
                         <div className="flex items-center justify-between gap-3">
-                          <div className="min-w-0 space-y-1">
-                            <span className="font-semibold text-[var(--text-primary)] leading-tight block">
+                          <div className="min-w-0 flex-1 space-y-1">
+                            <span className="font-semibold text-[var(--text-primary)] leading-tight block truncate">
                               {simpleTitle}
                             </span>
-                            <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed">
+                            <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed break-all line-clamp-2">
                               {simpleMessage}
                             </p>
                           </div>
-                          <div className="shrink-0 flex items-center justify-end">
+                          <div className="shrink-0 flex items-center justify-end pl-2">
                             {isPending ? (
                               <Button
                                 size="sm"

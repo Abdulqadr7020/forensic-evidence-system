@@ -4,7 +4,6 @@ import { Button } from '../components/ui/Button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../components/ui/Card';
 import { Badge } from '../components/ui/Badge';
 import { IntegrityBadge } from '../components/security/IntegrityBadge';
-import { HashDisplay } from '../components/security/HashDisplay';
 import { Alert } from '../components/ui/Alert';
 import { VerificationResultModal } from '../components/security/VerificationResultModal';
 import { FIXTURE_DOCUMENTS, FIXTURE_CHECKPOINT, getVerificationDetailForDoc } from '../data/fixtures';
@@ -18,7 +17,7 @@ export const IntegrityView: React.FC = () => {
   const [selectedDoc, setSelectedDoc] = useState<DocumentRecord | null>(null);
 
   const handleRunAllVerifications = () => {
-    success('Verification Invariant Check Completed', 'Evaluated 5 documents against Merkle Root #104.');
+    success('Verification Complete', 'Evaluated 5 evidence files for authenticity.');
   };
 
   const handleSimulateTamper = (docId: string) => {
@@ -34,14 +33,14 @@ export const IntegrityView: React.FC = () => {
         return doc;
       })
     );
-    warning('Tampering Injected into Storage', `Bit-level mismatch detected on ${docId}.`);
+    warning('Tampering Detected', `Unauthorized changes detected in evidence ${docId}.`);
   };
 
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Integrity Verification"
-        description="Cryptographic validation of stored ciphertext against registered SHA-256 commitments and Merkle checkpoints."
+        title="Evidence Verification"
+        description="Verify the authenticity and integrity of all digital evidence to ensure it has not been altered."
         actions={
           <Button
             size="sm"
@@ -56,42 +55,44 @@ export const IntegrityView: React.FC = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
-          <div className="text-xs text-[var(--text-muted)] font-medium">Merkle Root Checkpoint</div>
-          <div className="text-xl font-mono font-semibold text-[var(--text-primary)] mt-1">
-            Seq #{FIXTURE_CHECKPOINT.sequence}
+          <div className="text-xs text-[var(--text-muted)] font-medium">System Security</div>
+          <div className="text-xl font-semibold text-emerald-500 mt-1 flex items-center gap-1.5">
+            <CheckCircle2 className="w-5 h-5" />
+            <span>Active & Monitoring</span>
           </div>
-          <div className="mt-2">
-            <HashDisplay hash={FIXTURE_CHECKPOINT.rootHash} label="Root" truncateLength={8} />
+          <div className="text-[11px] text-[var(--text-muted)] mt-2">
+            Continuous background verification enabled
           </div>
         </Card>
 
         <Card>
-          <div className="text-xs text-[var(--text-muted)] font-medium">HSM Signature Scheme</div>
+          <div className="text-xs text-[var(--text-muted)] font-medium">Digital Signatures</div>
           <div className="text-xl font-semibold text-emerald-500 mt-1 flex items-center gap-1.5">
             <ShieldCheck className="w-5 h-5" />
-            <span>Ed25519 Authenticated</span>
+            <span>Authenticated</span>
           </div>
           <p className="text-[11px] text-[var(--text-muted)] mt-2">
-            Key: {FIXTURE_CHECKPOINT.signingKeyId}
+            All evidence is cryptographically sealed
           </p>
         </Card>
 
         <Card>
-          <div className="text-xs text-[var(--text-muted)] font-medium">Active Invariant Status</div>
+          <div className="text-xs text-[var(--text-muted)] font-medium">Overall Evidence Status</div>
           <div className="text-xl font-semibold text-[var(--text-primary)] mt-1">
-            4 / 5 Clean
+            4 Secure / 1 Alert
           </div>
-          <p className="text-[11px] text-rose-500 mt-2 font-medium">
-            1 Active Storage Tampering Alert
+          <p className="text-[11px] text-rose-500 mt-2 font-medium flex items-center gap-1">
+            <ShieldAlert className="w-3.5 h-3.5" />
+            Tampering detected in 1 file
           </p>
         </Card>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>Document Integrity Ledgers</CardTitle>
+          <CardTitle>Evidence Verification List</CardTitle>
           <CardDescription>
-            Continuous evaluation of stored ciphertext against registered SHA-256 commitments.
+            Live status of all digital evidence files.
           </CardDescription>
         </CardHeader>
 
@@ -119,12 +120,10 @@ export const IntegrityView: React.FC = () => {
 
                   <div className="mt-2 flex flex-wrap items-center gap-3 text-[11px]">
                     <div className="flex items-center gap-1.5">
-                      <span className="text-[var(--text-muted)]">Ciphertext SHA-256:</span>
-                      <HashDisplay hash={doc.sha256Ciphertext} truncateLength={8} />
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-[var(--text-muted)]">Merkle Leaf:</span>
-                      <HashDisplay hash={doc.merkleLeafHash} truncateLength={6} />
+                      <span className="text-[var(--text-muted)]">Digital Seal:</span>
+                      <span className={`font-medium ${isTampered ? 'text-rose-500' : 'text-emerald-500'}`}>
+                        {isTampered ? 'Broken (File Altered)' : 'Intact (Authentic)'}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -146,7 +145,7 @@ export const IntegrityView: React.FC = () => {
                     variant="primary"
                     onClick={() => setSelectedDoc(doc)}
                   >
-                    Inspect Checklist
+                    View Details
                   </Button>
                 </div>
               </div>

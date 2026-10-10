@@ -10,9 +10,9 @@ import { DocumentsView } from './views/DocumentsView';
 import { TransfersView } from './views/TransfersView';
 import { IntegrityView } from './views/IntegrityView';
 import { AuditView } from './views/AuditView';
-import { DesignSystemShowcase } from './views/DesignSystemShowcase';
 import { Button } from './components/ui/Button';
-import { Layers, Shield } from 'lucide-react';
+import { Shield } from 'lucide-react';
+import { SplashAnimation } from './components/ui/SplashAnimation';
 
 const pageVariants = {
   initial: { opacity: 0, y: 20 },
@@ -41,7 +41,6 @@ const AppContent: React.FC = () => {
     integrity: 'Integrity Verification',
     audit: 'Audit Trail',
     'security-center': 'Security Center',
-    'design-system': 'Design System',
   };
 
   const breadcrumbs = [
@@ -73,7 +72,6 @@ const AppContent: React.FC = () => {
           {currentTab === 'integrity' && <IntegrityView />}
           {currentTab === 'audit' && <AuditView />}
           {currentTab === 'security-center' && <IntegrityView />}
-          {currentTab === 'design-system' && <DesignSystemShowcase />}
         </motion.div>
       </AnimatePresence>
     </AppShell>
@@ -82,11 +80,30 @@ const AppContent: React.FC = () => {
 
 
 export default function App() {
+  const [showSplash, setShowSplash] = useState(true);
+
   return (
     <ThemeProvider>
       <AuthProvider>
         <ToastProvider>
-          <AppContent />
+          {/* Always render AppContent so it is ready when splash finishes */}
+          <div className="h-full w-full">
+            <AppContent />
+          </div>
+
+          <AnimatePresence>
+            {showSplash && (
+              <motion.div
+                key="splash"
+                initial={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4, ease: 'easeInOut' }}
+                className="fixed inset-0 z-[100]"
+              >
+                <SplashAnimation onComplete={() => setShowSplash(false)} />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </ToastProvider>
       </AuthProvider>
     </ThemeProvider>
