@@ -36,19 +36,19 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CRYPTO-01 | | Pending |
-| CRYPTO-02 | | Pending |
-| CRYPTO-03 | | Pending |
-| STORE-01 | | Pending |
-| STORE-02 | | Pending |
-| STORE-03 | | Pending |
-| INGEST-01 | | Pending |
-| INGEST-02 | | Pending |
+| CRYPTO-01 | Phase 9 | Pending |
+| CRYPTO-02 | Phase 9 | Pending |
+| CRYPTO-03 | Phase 9 | Pending |
+| STORE-01 | Phase 10 | Pending |
+| STORE-02 | Phase 10 | Pending |
+| STORE-03 | Phase 10 | Pending |
+| INGEST-01 | Phase 11 | Pending |
+| INGEST-02 | Phase 11 | Pending |
 
 **Coverage:**
 - v1.3 requirements: 8 total
-- Mapped to phases: 0
-- Unmapped: 8
+- Mapped to phases: 8
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-10-10*  
