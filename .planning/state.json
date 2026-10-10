@@ -1,12 +1,12 @@
 {
   "contract": "1.0.0",
   "flavor": "core",
-  "milestone": "v1.2",
+  "milestone": "v1.3 — AES-256-GCM Encryption & Secure Storage",
   "phases": [],
   "next": {
-    "command": "/gsd-discuss-phase",
-    "label": "Discuss the first phase",
-    "reason": "Project initialized — plan your first phase"
+    "command": "/gsd-complete-milestone",
+    "label": "Complete milestone v1.3",
+    "reason": "Phase 11 of 3 · 100% · completed"
   },
-  "updated_at": "2026-10-10T02:36:11.127Z"
+  "updated_at": "2026-10-10T12:45:00.000Z"
 }
