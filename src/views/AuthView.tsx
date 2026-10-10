@@ -113,7 +113,7 @@ export const AuthView: React.FC = () => {
         initial={{ opacity: 0, scale: 0.96, y: 14 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-        className="relative z-10 w-full max-w-md rounded-2xl border border-white/[0.09] bg-[#0c1017]/85 backdrop-blur-2xl shadow-[0_0_60px_rgba(0,0,0,0.8),0_0_30px_rgba(6,182,212,0.06)] p-6 sm:p-8"
+        className="relative z-10 w-full max-w-md rounded-2xl border border-cyan-500/15 bg-[#02050e]/92 backdrop-blur-2xl shadow-[0_0_60px_rgba(0,0,0,0.95),0_0_30px_rgba(6,182,212,0.06)] p-6 sm:p-8"
       >
         {/* Card Header: Sentinel DMS Shield & Welcome */}
         <div className="text-center mb-6">
@@ -159,7 +159,7 @@ export const AuthView: React.FC = () => {
           {/* Illuminated Divider */}
           <div className="relative flex items-center justify-center my-4">
             <div className="w-full border-t border-white/[0.08]" />
-            <span className="absolute px-3 bg-[#0c1017] text-[11px] font-mono text-neutral-500 uppercase tracking-wider">
+            <span className="absolute px-3 bg-[#02050e] text-[11px] font-mono text-neutral-500 uppercase tracking-wider">
               or credentials
             </span>
           </div>
